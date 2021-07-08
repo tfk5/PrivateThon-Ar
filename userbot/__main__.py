@@ -27,15 +27,15 @@ else:
     bot.tgbot = None
     try:
         if Config.TG_BOT_USERNAME is not None:
-            LOGS.info("𖠕 يتم تحميل انلاين تليثون العرب 𖠕")
+            LOGS.info("- Downloading PrivateThon ...")
             # ForTheGreatrerGood of beautification
             bot.tgbot = TelegramClient(
                 "TG_BOT_TOKEN", api_id=Config.APP_ID, api_hash=Config.API_HASH
             ).start(bot_token=Config.TG_BOT_TOKEN)
-            LOGS.info("𖠕 اكتمل تنزيل انلاين تليثون العرب بدون اخطاء 𖠕")
-            LOGS.info("𖠕 يتم بدء بوت تليثون العرب 𖠕")
+            LOGS.info("- Complete Download PrivateThon without Failed")
+            LOGS.info("- Start Uploading PrivateThon ...")
             bot.loop.run_until_complete(add_bot(Config.TG_BOT_USERNAME))
-            LOGS.info("𖠕 اكتمل بدء بوت تليثون العرب 𖠕")
+            LOGS.info("- Complete Uploading without Failed")
         else:
             bot.start()
     except Exception as e:
@@ -55,21 +55,15 @@ for name in files:
                 os.remove(Path(f"userbot/plugins/{shortname}.py"))
         except Exception as e:
             os.remove(Path(f"userbot/plugins/{shortname}.py"))
-            LOGS.info(f"𖠕 لايمكن تحميل - {shortname} بسبب {e} 𖠕")
+            LOGS.info(f"- Failed uploading {shortname} because : {e} 𖠕")
 
-LOGS.info("𖠕 بوت تليثون العرب يعمل بنجاح الان 𖠕")
-LOGS.info("\n𖠕 @iqthon - اذا كنت بحاجه الى مساعده فتوجه الى 𖠕")
+LOGS.info("- PrivateThon is Running")
 
 
 async def startupmessage():
     try:
         if Config.PRIVATE_GROUP_BOT_API_ID != 0:
-            await bot.send_message(
-                Config.PRIVATE_GROUP_BOT_API_ID,
-                "𝆹𝅥𝅮 𝗍𝖾𝗅𝖾𝗍𝗁𝗈𝗇-𝖺𝗋𝖺𝖻𝗌 - 𝗎𝗉𝖽𝖺𝗍𝖾 𝗆𝗌𝗀 𝆹𝅥𝅮\n 𓍹ⵧⵧⵧⵧⵧⵧⵧⵧᵗᵉˡᵉᵗʰᵒᶰ ᵃʳᵃᵇˢ⁦⁦ⵧⵧⵧⵧⵧⵧⵧⵧ𓍻\n**⪼ مبروك عزيزي اكتب الان .alive لترى ما اذا كان تليثون العرب يعمل**\
-        \n ⪼ إذا كنت بحاجة إلى مساعدة راسل مطوري\n 𓍹ⵧⵧⵧⵧⵧⵧⵧⵧᵗᵉˡᵉᵗʰᵒᶰ ᵃʳᵃᵇˢ⁦⁦ⵧⵧⵧⵧⵧⵧⵧⵧ𓍻\n 𓆰 𝘚𝘖𝘜𝘙𝘊 𝘛𝘌𝘓𝘌𝘛𝘏𝘖𝘕-𝘈𝘙𝘈𝘉𝘚 𖤍 - [𝘋𝘌𝘝](t.me/iqthon)  𓆪",
-                link_preview=False,
-            )
+            
     except Exception as e:
         LOGS.info(str(e))
 
