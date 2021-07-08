@@ -59,17 +59,6 @@ for name in files:
 
 LOGS.info("- PrivateThon is Running")
 
-
-async def startupmessage():
-    try:
-        if Config.PRIVATE_GROUP_BOT_API_ID != 0:
-            
-    except Exception as e:
-        LOGS.info(str(e))
-
-
-bot.loop.create_task(startupmessage())
-
 if len(sys.argv) not in (1, 3, 4):
     bot.disconnect()
 else:
