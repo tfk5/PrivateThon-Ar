@@ -11,8 +11,8 @@ from ..utils import errors_handler
 from . import BOTLOG, BOTLOG_CHATID, extract_time, get_user_from_event
 
 # =================== CONSTANT ===================
-NO_ADMIN = "`I am not an admin nub nibba!`"
-NO_PERM = "`I don't have sufficient permissions! This is so sed. Alexa play despacito`"
+NO_ADMIN = "- Error, You not admin "
+NO_PERM = NO_ADMIN
 
 
 @bot.on(admin_cmd(pattern=r"tmute(?: |$)(.*)"))
