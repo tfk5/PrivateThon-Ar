@@ -23,7 +23,7 @@ async def _(event):
     elif input_str == "text":
         as_text = True
     catevent = await edit_or_reply(
-        event, "`يـرجى الانتضـار لجـلب سـرعة الانـترنيت لديـك 📶`"
+        event, "wait ..."
     )
     start = datetime.now()
     s = speedtest.Speedtest()
@@ -45,26 +45,21 @@ async def _(event):
         speedtest_image = response
         if as_text:
             await catevent.edit(
-                """`سـرعة الانـترنيت لديـك هيـة {} بالـثانية 📳`
-
-`الـتحميل : {}`
-`الـرفع : {}`
-`الـبنك : {}`
-`مزود خدمة الإنترنت : {}`
-`تقييم ISP : {}`""".format(
+"""- in second : {}
+- Downloading : {}
+- Uploading : {}
+- ping : {}""".format(
                     ms,
                     convert_from_bytes(download_speed),
                     convert_from_bytes(upload_speed),
-                    ping_time,
-                    i_s_p,
-                    i_s_p_rating,
+                    ping_time
                 )
             )
         else:
             await event.client.send_file(
                 event.chat_id,
                 speedtest_image,
-                caption="**سـرعة الانتـرنيت ** اكتـملت  {} ثانيـة 📳".format(ms),
+                caption="SpeedTest Complete in second : {}".format(ms),
                 force_document=as_document,
                 reply_to=reply_msg_id,
                 allow_cache=False,
@@ -72,20 +67,16 @@ async def _(event):
             await event.delete()
     except Exception as exc:
         await catevent.edit(
-            """**سـرعة الانتـرنيت** اكـتمل خـلال {} ثانـية
-الـتحميل : {}
-الـرفع : {}
-البنـك : {}
-
-__With the Following ERRORs__
-{}""".format(
-                ms,
-                convert_from_bytes(download_speed),
-                convert_from_bytes(upload_speed),
-                ping_time,
-                str(exc),
+"""- in second : {}
+- Downloading : {}
+- Uploading : {}
+- ping : {}""".format(
+                    ms,
+                    convert_from_bytes(download_speed),
+                    convert_from_bytes(upload_speed),
+                    ping_time
+                )
             )
-        )
 
 
 def convert_from_bytes(size):

@@ -11,21 +11,21 @@ async def _(event):
         try:
             p = await event.client.get_entity(input_str)
         except Exception as e:
-            return await edit_delete(event, f"`{str(e)}`", 5)
+            return await edit_delete(event, f"- Error :  [{str(e)}]", 5)
         try:
             if p.first_name:
                 return await edit_or_reply(
-                    event, f"مـعرف المسـتخدميـن `{input_str}` هـو `{p.id}`"
+                    event, f"- USER ID :  [{input_str} {p.id}]"
                 )
         except Exception:
             try:
                 if p.title:
                     return await edit_or_reply(
-                        event, f"معرف الدردشة / القناة `{p.title}` هـو `{p.id}` 𖠕"
+                        event, f"- Chat-ID :  [{p.title} {p.id}]"
                     )
             except Exception as e:
                 LOGS.info(str(e))
-        await edit_or_reply(event, "إما أن تعطي مدخلات كاسم مستخدم أو ترد على المستخدم")
+        await edit_or_reply(event, "- Error, Put correct user/id or replay")
     elif event.reply_to_msg_id:
         await event.get_input_chat()
         r_msg = await event.get_reply_message()
@@ -33,15 +33,15 @@ async def _(event):
             bot_api_file_id = pack_bot_file_id(r_msg.media)
             await edit_or_reply(
                 event,
-                f"**مـعرف الـدردشـة الحـالي : **`{str(event.chat_id)}`\n**مـن معـرف المـستخـدم : **`{str(r_msg.sender_id)}`\n**مـعرف الوسـائط : **`{bot_api_file_id}` 𖠕",
+                f"- Chat-ID :  [{str(event.chat_id)}]\n- User-ID :  [{str(r_msg.sender_id)}]\n- File-ID : [{bot_api_file_id}]",
             )
         else:
             await edit_or_reply(
                 event,
-                f"**مـعرف الـدردشة الحـالي : **`{str(event.chat_id)}`\n**مـن معـرف المـستخدم : **`{str(r_msg.sender_id)}` 𖠕",
+                f"- Chat-ID :  [{str(event.chat_id)}]\n- User-ID :  [{str(r_msg.sender_id)}]",
             )
     else:
-        await edit_or_reply(event, f"**مـعرف الـدردشة الحـالي : **`{str(event.chat_id)}` 𖠕")
+        await edit_or_reply(event, f"- Chat-ID :  [{str(event.chat_id)}]")
 
 
 CMD_HELP.update(
