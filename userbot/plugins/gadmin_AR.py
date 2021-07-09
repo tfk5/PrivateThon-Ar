@@ -184,10 +184,10 @@ async def gablist(event):
     if len(gbanned_users) > 0:
         for a_user in gbanned_users:
             if a_user.reason:
-                GBANNED_LIST += f"- [{a_user.chat_id}](tg://user?id={a_user.chat_id})\n"
+                GBANNED_LIST += f"- [ [{a_user.chat_id}](tg://user?id={a_user.chat_id}) ]\n"
             else:
                 GBANNED_LIST += (
-                    f"- [{a_user.chat_id}](tg://user?id={a_user.chat_id})\n"
+                    f"- [ [{a_user.chat_id}](tg://user?id={a_user.chat_id}) ]\n"
                 )
     else:
         GBANNED_LIST = "- no Banned Users Found"
@@ -218,7 +218,7 @@ async def startgmute(event):
     if is_muted(userid, "mute"):
         return await edit_or_reply(
             event,
-            f"{eb} [{_format.mentionuser(user.first_name ,user.id)}]",
+            f"{eb} [ {_format.mentionuser(user.first_name ,user.id)} ]",
         )
     try:
         mute(userid, "mute")
@@ -228,12 +228,12 @@ async def startgmute(event):
         if reason:
             await edit_or_reply(
                 event,
-                f"{mb} [{_format.mentionuser(user.first_name ,user.id)}]",
+                f"{mb} [ {_format.mentionuser(user.first_name ,user.id)} ]",
             )
         else:
             await edit_or_reply(
                 event,
-                f"{mb} [{_format.mentionuser(user.first_name ,user.id)}]",
+                f"{mb} [ {_format.mentionuser(user.first_name ,user.id)} ]",
             )
     if BOTLOG:
         reply = await event.get_reply_message()
@@ -269,7 +269,7 @@ async def endgmute(event):
 
     if not is_muted(userid, "mute"):
         return await edit_or_reply(
-            event, f"- Sorry this user not muted [{_format.mentionuser(user.first_name ,user.id)}]"
+            event, f"- Sorry this user not muted [ {_format.mentionuser(user.first_name ,user.id)} ]"
         )
     try:
         unmute(userid, "mute")
@@ -279,12 +279,12 @@ async def endgmute(event):
         if reason:
             await edit_or_reply(
                 event,
-                f"{mp} [{_format.mentionuser(user.first_name ,user.id)}]",
+                f"{mp} [ {_format.mentionuser(user.first_name ,user.id)} ]",
             )
         else:
             await edit_or_reply(
                 event,
-                f"{mp} [{_format.mentionuser(user.first_name ,user.id)}]",
+                f"{mp} [ {_format.mentionuser(user.first_name ,user.id)} ]",
             )
     if BOTLOG:
         if reason:

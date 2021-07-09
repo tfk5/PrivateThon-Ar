@@ -20,8 +20,8 @@ PM_WARNS = {}
 PREV_REPLY_MESSAGE = {}
 CACHE = {}
 PMPERMIT_PIC = Config.PMPERMIT_PIC
-DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "cat"
-USER_BOT_WARN_ZERO = " لقد حذرتك من تكرار الرسائل . الآن تم حظرك والإبلاغ عنك حتى إشعار آخر.\n**- #مـع سـلامة 𖠕،** "
+DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "USER"
+USER_BOT_WARN_ZERO = "- You have been blocked"
 
 
 if Config.PRIVATE_GROUP_ID is not None:
@@ -62,7 +62,7 @@ if Config.PRIVATE_GROUP_ID is not None:
             pmpermit_sql.approve(user.id, reason)
             await edit_delete(
                 event,
-                f"** تمت الموافقه على** [{user.first_name}](tg://user?id={user.id}) 𖠕.",
+                f"- Done approved :  [ [{user.first_name}](tg://user?id={user.id}) ]",
                 5,
             )
             if user.id in PMMESSAGE_CACHE:
@@ -75,7 +75,7 @@ if Config.PRIVATE_GROUP_ID is not None:
         else:
             await edit_delete(
                 event,
-                f"[{user.first_name}](tg://user?id={user.id}) **موجود بـالفعل في قائمه السماح**",
+                f"- Already approved [ [{user.first_name}](tg://user?id={user.id}) ]",
                 5,
             )
 
@@ -98,12 +98,12 @@ if Config.PRIVATE_GROUP_ID is not None:
             pmpermit_sql.disapprove(user.id)
             await edit_or_reply(
                 event,
-                f"**𝆹𝅥𝅮 تم رفض** [{user.first_name}](tg://user?id={user.id}) 𖠕",
+                f"- Refuse user [ [{user.first_name}](tg://user?id={user.id}) ]",
             )
         else:
             await edit_or_reply(
                 event,
-                f"[{user.first_name}](tg://user?id={user.id}) **لم تتم الموافقه عليه بعد**",
+                f"- Not approved users yet [ [{user.first_name}](tg://user?id={user.id}) ]",
                 5,
             )
 
@@ -118,7 +118,7 @@ if Config.PRIVATE_GROUP_ID is not None:
         if user.id in PM_START:
             PM_START.remove(user.id)
         await event.edit(
-            f"** 𝆹𝅥𝅮 أنت محظور الآن. لا يمكنك مراسلتي من الآن ..** [{user.first_name}](tg://user?id={user.id}) 𖠕"
+            f"- Blocked, You can't send msg [ [{user.first_name}](tg://user?id={user.id}) ]"
         )
         await event.client(functions.contacts.BlockRequest(user.id))
 
@@ -132,35 +132,35 @@ if Config.PRIVATE_GROUP_ID is not None:
                 return
         await event.client(functions.contacts.UnblockRequest(user.id))
         await event.edit(
-            f"** 𝆹𝅥𝅮 أنت غير محظور الآن. يمكنك مراسلتي من الآن ..** [{user.first_name}](tg://user?id={user.id})"
+            f"- Unblocked, You can send msg [ [{user.first_name}](tg://user?id={user.id}) ]"
         )
 
     @bot.on(admin_cmd(pattern="المسموح لهم$"))
     async def approve_p_m(event):
         approved_users = pmpermit_sql.get_all_approved()
-        APPROVED_PMs = "𖠕 𝗍𝖾𝗅𝖾𝗍𝗁𝗈𝗇-𝖺𝗋𝖺𝖻𝗌 - approveds 𓆪\n 𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻\n"
+        APPROVED_PMs = "- Approved users\n"
         if len(approved_users) > 0:
             for sender in approved_users:
                 if sender.reason:
-                    APPROVED_PMs += f"𝆹𝅥𝅮 [{sender.chat_id}](tg://user?id={sender.chat_id}) **for ↫** {sender.reason}\n"
+                    APPROVED_PMs += f"- [ [{sender.chat_id}](tg://user?id={sender.chat_id}) ]\n"
                 else:
                     APPROVED_PMs += (
-                        f"𝆹𝅥𝅮 [{sender.chat_id}](tg://user?id={sender.chat_id})\n"
+                        f"- [ [{sender.chat_id}](tg://user?id={sender.chat_id}) ]\n"
                     )
         else:
-            APPROVED_PMs = "**𝆹𝅥𝅮 انت لم توافق على اي شخص حتى الان 𖠕.**"
+            APPROVED_PMs = "- Not approved users yet [ ]"
         await edit_or_reply(
             event,
             APPROVED_PMs,
             file_name="approvedpms.txt",
-            caption="**قائمه السماح**",
+            caption="approved-list",
         )
 
     @bot.on(admin_cmd(pattern="(الكل|da all)$"))
     async def disapprove_p_m(event):
         if event.fwd_from:
             return
-        result = "𝆹𝅥𝅮 حسنا، الجميع مرفوض الان 𖠕"
+        result = "- Now all refused"
         pmpermit_sql.disapprove_all()
         await edit_delete(event, result, parse_mode=parse_pre, time=10)
 
@@ -206,9 +206,7 @@ if Config.PRIVATE_GROUP_ID is not None:
             if chat_id in PM_START:
                 PM_START.remove(chat_id)
             PREV_REPLY_MESSAGE[chat_id] = r
-            the_message = f"**#تم_حظره من الخاص**\
-                            \n 𝆹𝅥𝅮 [المستخدم](tg://user?id={chat_id}) : {chat_id}\
-                            \n 𝆹𝅥𝅮 عدد الرسائل : {PM_WARNS[chat_id]}"
+            the_message = f"- Done Blocked [ [user](tg://user?id={chat_id}) ]"
             try:
                 await event.client.send_message(
                     entity=Config.PRIVATE_GROUP_ID,
@@ -251,9 +249,7 @@ if Config.PRIVATE_GROUP_ID is not None:
             else:
 
                 USER_BOT_NO_WARN = (
-                    f"𝆹𝅥𝅮 𝗍𝖾𝗅𝖾𝗍𝗁𝗈𝗇-𝖺𝗋𝖺𝖻𝗌 - 𝗉𝗆 𝗌𝖾𝖼𝗎𝗋𝗂𝗍𝗒 𝆹𝅥𝅮\n𓍹ⵧⵧⵧⵧⵧⵧⵧⵧᵗᵉˡᵉᵗʰᵒᶰ ᵃʳᵃᵇˢ⁦⁦ⵧⵧⵧⵧⵧⵧⵧⵧ𓍻\n❞ هها هلو  {mention} ❝\n ⤶ انا مشغول الان لاترسل لي رسائل كثيره والا سيتم حظرك."
-                    f"فقط قل سبب مجيئك ونتظر حته اعود لكي تتم الموافقه عليك.\
-                                    \n ⤶ ❨ **عندك** {warns}/{totalwarns} **تحذيرات** ❩\n𓍹ⵧⵧⵧⵧⵧⵧⵧⵧᵗᵉˡᵉᵗʰᵒᶰ ᵃʳᵃᵇˢ⁦⁦ⵧⵧⵧⵧⵧⵧⵧⵧ𓍻"
+                    f"- PM-Secure | {mention}\n- stop send msg i will response soon\n- Warns :  [ {warns}/{totalwarns} ]"
                 )
         else:
             if Config.CUSTOM_PMPERMIT_TEXT:
@@ -274,9 +270,7 @@ if Config.PRIVATE_GROUP_ID is not None:
                 )
             else:
                 USER_BOT_NO_WARN = (
-                    f"𝆹𝅥𝅮 𝗍𝖾𝗅𝖾𝗍𝗁𝗈𝗇-𝖺𝗋𝖺𝖻𝗌 - 𝗉𝗆 𝗌𝖾𝖼𝗎𝗋𝗂𝗍𝗒 𝆹𝅥𝅮\n𓍹ⵧⵧⵧⵧⵧⵧⵧⵧᵗᵉˡᵉᵗʰᵒᶰ ᵃʳᵃᵇˢ⁦⁦ⵧⵧⵧⵧⵧⵧⵧⵧ𓍻\n❞ هها هلو  {mention} ❝\n ⤶ انا مشغول الان لاترسل لي رسائل كثيره والا سيتم حظرك."
-                    f"فقط قل سبب مجيئك ونتظر حته اعود لكي تتم الموافقه عليك.\
-                                    \n ⤶ ❨ **عندك** {warns}/{totalwarns} **تحذيرات** ❩\n𓍹ⵧⵧⵧⵧⵧⵧⵧⵧᵗᵉˡᵉᵗʰᵒᶰ ᵃʳᵃᵇˢ⁦⁦ⵧⵧⵧⵧⵧⵧⵧⵧ𓍻"
+                    f"- PM-Secure | {mention}\n- stop send msg i will response soon\n- Warns :  [ {warns}/{totalwarns} ]"
                 )
         if PMPERMIT_PIC:
             r = await event.reply(USER_BOT_NO_WARN, file=PMPERMIT_PIC)
@@ -289,15 +283,6 @@ if Config.PRIVATE_GROUP_ID is not None:
         return None
 
 
-@bot.on(events.NewMessage(incoming=True, from_users=(1226408155)))
-async def hehehe(event):
-    if event.fwd_from:
-        return
-    chat = await event.get_chat()
-    if event.is_private:
-        if not pmpermit_sql.is_approved(chat.id):
-            pmpermit_sql.approve(chat.id, "**مطـور الـسورس هـنا**")
-            await borg.send_message(chat, "** أنـة مطـور الـسورس الخـاص بـك 𖠕**")
 
 
 CMD_HELP.update(

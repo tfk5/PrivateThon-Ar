@@ -35,7 +35,7 @@ async def download_video(v_url):
         await edit_or_reply(v_url, " ما الذي من المفترض أن أجده ؟  أعط الرابـط")
         return
     ytype = v_url.pattern_match.group(1).lower()
-    v_url = await edit_or_reply(v_url, "**إحضار البيانات ، يرجى الانتظار...**")
+    v_url = await edit_or_reply(v_url, "إحضار البيانات ، يرجى الانتظار...")
     reply_to_id = await reply_id(v_url)
     if ytype == "a":
         opts = {
@@ -78,7 +78,7 @@ async def download_video(v_url):
         song = False
         video = True
     try:
-        await v_url.edit("**  إحضار البيانـات ، يرجى الانتـظار **")
+        await v_url.edit("  إحضار البيانـات ، يرجى الانتـظار ")
         with YoutubeDL(opts) as ytdl:
             ytdl_data = ytdl.extract_info(url)
     except DownloadError as DE:
@@ -89,23 +89,23 @@ async def download_video(v_url):
         return
     except GeoRestrictedError:
         await v_url.edit(
-            "** الفيديـو غير متـاح من موقـعك الجغرافـي بسبب القيود الجغرافية التي يفرضهـا موقع الويب**"
+            " الفيديـو غير متـاح من موقـعك الجغرافـي بسبب القيود الجغرافية التي يفرضهـا موقع الويب"
         )
         return
     except MaxDownloadsReached:
-        await v_url.edit("** تم الوصـول إلى الحـد الأقـصى لعدد التـنزيـلات**")
+        await v_url.edit(" تم الوصـول إلى الحـد الأقـصى لعدد التـنزيـلات")
         return
     except PostProcessingError:
-        await v_url.edit("** حـدث خـطأ أثناء معالجـة ما بعد**")
+        await v_url.edit(" حـدث خـطأ أثناء معالجـة ما بعد")
         return
     except UnavailableVideoError:
-        await v_url.edit("** الوسـائـط غير متوفـرة بالتنسـيق المطـلوب**")
+        await v_url.edit(" الوسـائـط غير متوفـرة بالتنسـيق المطـلوب")
         return
     except XAttrMetadataError as XAME:
         await v_url.edit(f"`{XAME.code}: {XAME.msg}\n{XAME.reason}`")
         return
     except ExtractorError:
-        await v_url.edit("** حـدث خـطأ أثناء معالجـة ما بعد**")
+        await v_url.edit(" حـدث خـطأ أثناء معالجـة ما بعد")
         return
     except Exception as e:
         await v_url.edit(f"{str(type(e)): {str(e)}}")
@@ -118,8 +118,8 @@ async def download_video(v_url):
         catthumb = None
     if song:
         await v_url.edit(
-            f"** التحضـير لتحـميل الأغنـية**:`\
-        \n**{ytdl_data['title']}**\
+            f" التحضـير لتحـميل الأغنـية:`\
+        \n{ytdl_data['title']}\
         \nby *{ytdl_data['uploader']}*"
         )
         await v_url.client.send_file(
@@ -144,8 +144,8 @@ async def download_video(v_url):
         os.remove(f"{ytdl_data['id']}.mp3")
     elif video:
         await v_url.edit(
-            f"** التحـضير لتحميـل الفيـديو:**\
-        \n**{ytdl_data['title']}**\
+            f" التحـضير لتحميـل الفيـديو:\
+        \n{ytdl_data['title']}\
         \nby *{ytdl_data['uploader']}*"
         )
         await v_url.client.send_file(
@@ -178,9 +178,9 @@ async def yt_search(event):
         query = str(event.pattern_match.group(2))
     if not query:
         return await edit_delete(
-            event, "** الـرد على رسالـة أو تمريـر استعـلام للبحـث**"
+            event, " الـرد على رسالـة أو تمريـر استعـلام للبحـث"
         )
-    video_q = await edit_or_reply(event, "** جـاري البـحث...**")
+    video_q = await edit_or_reply(event, " جـاري البـحث...")
     if event.pattern_match.group(1) != "":
         lim = int(event.pattern_match.group(1))
         if lim <= 0:
@@ -191,7 +191,7 @@ async def yt_search(event):
         full_response = await ytsearch(query, limit=lim)
     except Exception as e:
         return await edit_delete(video_q, str(e), time=10, parse_mode=parse_pre)
-    reply_text = f"**•  Search Query:**\n`{query}`\n\n**•  Results:**\n{full_response}"
+    reply_text = f"•  Search Query:\n`{query}`\n\n•  Results:\n{full_response}"
     await edit_or_reply(video_q, reply_text)
 
 
@@ -208,7 +208,7 @@ async def kakashi(event):
         )
     else:
         start = datetime.now()
-        catevent = await edit_or_reply(event, "**Downloading.....**")
+        catevent = await edit_or_reply(event, "Downloading.....")
     async with event.client.conversation(chat) as conv:
         try:
             msg_start = await conv.send_message("/start")
@@ -218,7 +218,7 @@ async def kakashi(event):
             details = await conv.get_response()
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
-            await catevent.edit("**Error:** `unblock` @instasavegrambot `and retry!`")
+            await catevent.edit("Error: `unblock` @instasavegrambot `and retry!`")
             return
         await catevent.delete()
         cat = await event.client.send_file(
@@ -238,15 +238,15 @@ async def kakashi(event):
 
 CMD_HELP.update(
     {
-        "تحميل رابط": "**Plugin :** `تحميل رابط`\
-    \n\n  •  **Syntax :** `.yta link`\
-    \n  •  **Function : **__downloads the audio from the given link(Suports the all sites which support youtube-dl)__\
-    \n\n  •  **Syntax : **`.ytv link`\
-    \n  •  **Function : **__downloads the video from the given link(Suports the all sites which support youtube-dl)__\
-    \n\n  •  **Syntax : **`.yts query`/`.yts count query`\
-    \n  •  **Function : **__Fetches youtube search results with views and duration with required no of count results by default it fetches 10 results__\
-    \n\n  •  **Syntax : **`.insta` <link>\
-    \n  •  **Function : **__Downloads the video from the given instagram link__\
+        "تحميل رابط": "Plugin : `تحميل رابط`\
+    \n\n  •  Syntax : `.yta link`\
+    \n  •  Function : __downloads the audio from the given link(Suports the all sites which support youtube-dl)__\
+    \n\n  •  Syntax : `.ytv link`\
+    \n  •  Function : __downloads the video from the given link(Suports the all sites which support youtube-dl)__\
+    \n\n  •  Syntax : `.yts query`/`.yts count query`\
+    \n  •  Function : __Fetches youtube search results with views and duration with required no of count results by default it fetches 10 results__\
+    \n\n  •  Syntax : `.insta` <link>\
+    \n  •  Function : __Downloads the video from the given instagram link__\
     "
     }
 )

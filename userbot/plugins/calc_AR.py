@@ -8,7 +8,7 @@ import traceback
 @bot.on(sudo_cmd(pattern="calc (.*)", allow_sudo=True))
 async def _(car):
     cmd = car.text.split(" ", maxsplit=1)[1]
-    event = await edit_or_reply(car, "جـاري الحسـاب ...")
+    event = await edit_or_reply(car, "- Wait ...")
     old_stderr = sys.stderr
     old_stdout = sys.stdout
     redirected_output = sys.stdout = io.StringIO()
@@ -31,8 +31,8 @@ async def _(car):
     elif stdout:
         evaluation = stdout
     else:
-        evaluation = "آسف ، لا يمكنني العثور على نتيجة للمعادلة المحددة "
-    final_output = "معادلة: {}\nالحل: {}".format(
+        evaluation = "Sorry i can't get The result"
+    final_output = "- output :  {}".format(
         cmd, evaluation
     )
     await event.edit(final_output)

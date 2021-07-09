@@ -20,11 +20,11 @@ async def amireallyalive(alive):
     uptime = await get_readable_time((time.time() - StartTime))
     _, check_sgnirts = check_data_base_heal_th()
     if CAT_IMG:
-        cat_caption = f"- 𝚂𝚃𝙰𝚃𝚄𝚂 :  {check_sgnirts}\n"
+        cat_caption = f"- 𝚂𝚃𝙰𝚃𝚄𝚂 :  Working\n"
         cat_caption += f"- 𝚅𝙴𝚁𝚂𝙸𝙾𝙽 :  7.7.7\n"
         cat_caption += f"- 𝚁𝚄𝙽𝚃𝙸𝙼𝙴 :  {uptime}\n"
         cat_caption += f"- 𝚄𝚂𝙴𝚁 :  {mention}\n"
-        cat_caption += f"- 𝙳𝙴𝚅 :  [𝗗𝗘𝗩](t.me/i_M_5)"
+        cat_caption += f"- 𝙳𝙴𝚅 :  [ᴅᴇᴠ](t.me/i_M_5)"
         await alive.client.send_file(
             alive.chat_id, CAT_IMG, caption=cat_caption, reply_to=reply_to_id
         )
@@ -52,7 +52,7 @@ def check_data_base_heal_th():
         output = f"❌ {str(e)}"
         is_database_working = False
     else:
-        output = "تعمل بنجاح"
+        output = "- SuccessFully Work"
         is_database_working = True
     return is_database_working, output
 
