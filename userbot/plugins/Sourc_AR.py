@@ -24,7 +24,7 @@ async def amireallyalive(alive):
         cat_caption += f"- 𝚅𝙴𝚁𝚂𝙸𝙾𝙽 :  7.7.7\n"
         cat_caption += f"- 𝚁𝚄𝙽𝚃𝙸𝙼𝙴 :  {uptime}\n"
         cat_caption += f"- 𝚄𝚂𝙴𝚁 :  {mention}\n"
-        cat_caption += f"[DEV](t.me/i_M_5)"
+        cat_caption += f"- 𝙳𝙴𝚅 :  [𝗗𝗘𝗩](t.me/i_M_5)"
         await alive.client.send_file(
             alive.chat_id, CAT_IMG, caption=cat_caption, reply_to=reply_to_id
         )
