@@ -5,10 +5,10 @@ from telethon import version
 
 from . import ALIVE_NAME, StartTime, catversion, get_readable_time, mention, reply_id
 
-DEFAULTUSER = ALIVE_NAME or "I𝐐𝐓𝐇𝐎𝐍⁦♡⁩"
-CAT_IMG = Config.ALIVE_PIC or "https://telegra.ph/file/8113946b13686a0bdcac6.jpg"
-CUSTOM_ALIVE_TEXT = Config.CUSTOM_ALIVE_TEXT or "⇝ ＴＥＬＥＴＨＯＮ ＡＲＡＢＳ ⇜"
-EMOJI = Config.CUSTOM_ALIVE_EMOJI or "𖠕"
+DEFAULTUSER = ALIVE_NAME or "Mark²"
+CAT_IMG = Config.ALIVE_PIC or "http://test705.c1.biz/Mark1.jpg"
+CUSTOM_ALIVE_TEXT = Config.CUSTOM_ALIVE_TEXT or "False"
+EMOJI = Config.CUSTOM_ALIVE_EMOJI or "False"
 
 
 @bot.on(admin_cmd(outgoing=True, pattern="alive$"))
@@ -20,11 +20,11 @@ async def amireallyalive(alive):
     uptime = await get_readable_time((time.time() - StartTime))
     _, check_sgnirts = check_data_base_heal_th()
     if CAT_IMG:
-        cat_caption = f"**↲ الحاله  ↵ **⇲ `{check_sgnirts}`⇱\n"
-        cat_caption += f"**↲ اصدار النسخه ↵**⇲ `1.0.0⇱\n`"
-        cat_caption += f"**↲ مده التشغيل  ↵ **⇲ `{uptime}⇱\n`"
-        cat_caption += f"**↲ المستخدم ↵ **⇲ {mention}⇱\n"
-        cat_caption += f"**↲**  ⇲**[نسـخة عـربيـة]**(t.me/thonar) ⇱.\n\n"
+        cat_caption = f"- 𝚂𝚃𝙰𝚃𝚄𝚂 :  {check_sgnirts}\n"
+        cat_caption += f"- 𝚅𝙴𝚁𝚂𝙸𝙾𝙽 :  7.7.7\n"
+        cat_caption += f"- 𝚁𝚄𝙽𝚃𝙸𝙼𝙴 :  {uptime}\n"
+        cat_caption += f"- 𝚄𝚂𝙴𝚁 :  {mention}\n"
+        cat_caption += f"[DEV](t.me/i_M_5)"
         await alive.client.send_file(
             alive.chat_id, CAT_IMG, caption=cat_caption, reply_to=reply_to_id
         )
@@ -32,13 +32,7 @@ async def amireallyalive(alive):
     else:
         await edit_or_reply(
             alive,
-             f"**{CUSTOM_ALIVE_TEXT}**\n"
-        f"**{EMOJI} قاعدة البيانات 『** `1.0.0`』\n"
-        f"**{EMOJI} اصدار التليثون  『** `1.0.0`』\n`"
-        f"**{EMOJI} اصدار تليثون العرب 『** `1.0.0`』\n"
-        f"**{EMOJI} اصدار البايثون 『** `1.0.0`』\n`"
-        f"**{EMOJI} مدة التشغيل 『** `{uptime}』\n`"
-        f"**{EMOJI} المستخدم 『** {mention}』\n",
+            "- Failed, Unfounded"
         )
 
 
@@ -54,7 +48,7 @@ def check_data_base_heal_th():
         # to check database we will execute raw query
         SESSION.execute("SELECT 1")
     except Exception as e:
-        output = f"❌ {str(e)}"
+        output = f"- Error {str(e)}"
         is_database_working = False
     else:
         output = "تعمل بنجاح"
